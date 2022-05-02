@@ -38,7 +38,8 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            #'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => database_path('Laravel.db'),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
@@ -46,7 +47,8 @@ return [
         'sqliteIMSI' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            'databaseIMSI' => env('DB_DATABASEIMSI', database_path('database.sqlite')),
+            #'databaseIMSI' => env('DB_DATABASEIMSI', database_path('database.sqlite')),
+            'databaseIMSI' => database_path('IMSI.db'),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],

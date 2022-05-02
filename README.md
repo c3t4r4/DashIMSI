@@ -9,15 +9,15 @@
 
 ## About Install
 
-'''
+```
 sudo apt install timedatectl set-timezone America/Sao_Paulo curl net-tools software-properties-common acl unzip htop ncdu && sudo add-apt-repository ppa:ondrej/php -y && sudo apt install apache2 php-cli php php-curl php-pgsql php-sqlite3 php-mcrypt php-gd php-imap php-pear php-imagick php-bz2 php-mbstring php-xml -y
-'''
+```
 
-'''
+```
 curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer && sudo chmod +x /usr/local/bin/composer && curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt install nodejs -y && node -v
-'''
+```
 
-'''
+```
 php artisan jetstream:install inertia && npm install && npm run dev
-'''
+```
 

@@ -7,8 +7,20 @@
         </template>
 
         <div class="py-12">
+            
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+
+                <div class="sm:flex sm:items-center m-4">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-xl font-semibold text-gray-900">Localizados</h1>
+                        <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Search..." />
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                        <Link type="button" :href="route('located')" methods="get" class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto">Recarregar</Link>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4">
                     <TableModel>
                         <template #header>
                                 <tr class="divide-x divide-gray-300">
@@ -59,8 +71,8 @@
     </app-layout>
 </template>
 
-<script>
-    import { defineComponent } from 'vue'
+<script setup>
+    import { defineComponent, ref, watch } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     
     import { PlusIcon  } from '@heroicons/vue/solid';
@@ -71,19 +83,28 @@
     import TablePagination from "@/Components/Tables/TablePagination";
     import TableHeader from "@/Components/Tables/TableHeader";
 
-    export default defineComponent({
-        components: {
-            AppLayout,
-            TableModel,
-            TableButton,
-            TablePagination,
-            TableHeader,
-            Link,
-            PlusIcon,
-            Head,
-        },
-        props: {
-            locateds: Object
-        }
-    })
+    import { Inertia  } from "@inertiajs/inertia";
+
+    let search = ref('');
+
+    defineProps({ 
+        locateds: Object,
+    });
+
+    defineComponent({
+        AppLayout,
+        PlusIcon,
+        Head,
+        Link,
+        TableModel,
+        TableButton,
+        TablePagination,
+        TableHeader
+    });
+
+    watch(search, value => {
+        Inertia.get("/located", {search:value }, {
+            preserveState: true
+        });
+    });
 </script>

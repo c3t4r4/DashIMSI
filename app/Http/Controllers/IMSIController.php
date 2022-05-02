@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class IMSIController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $locateds = DB::connection('sqliteIMSI')
         ->table("LOCATED")
         ->join("IMSI", function ($join) {
@@ -23,7 +23,5 @@ class IMSIController extends Controller
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds
         ]);
-
-        $locateds->CREATED_AT->format('d-m-Y H:m:s');
     }
 }

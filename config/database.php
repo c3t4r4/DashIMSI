@@ -44,15 +44,6 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        'sqliteIMSI' => [
-            'driver' => 'sqlite',
-            'url' => env('DATABASE_URL'),
-            #'databaseIMSI' => env('DB_DATABASEIMSI', database_path('database.sqlite')),
-            'database' => database_path('IMSI.db'),
-            'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-        ],
-
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

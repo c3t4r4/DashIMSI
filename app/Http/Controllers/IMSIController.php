@@ -11,8 +11,6 @@ class IMSIController extends Controller
 {
     public function index(Request $request){
         $locateds = Located::allItens()->get();
-
-        dd($locateds);
         
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds

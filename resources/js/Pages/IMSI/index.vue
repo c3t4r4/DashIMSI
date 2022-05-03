@@ -28,31 +28,25 @@
                                     <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">IMSI</th>
                                     <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">TIMSI</th>
                                     <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Data Criação</th>
-                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
                                     <th v-if="(1==2)" scope="col" class="py-3.5 pl-4 pr-4 text-center text-sm font-semibold text-gray-900 sm:pr-6">Ações</th>
                                 </tr>
                         </template>
 
                         <tr v-for="(located, locatedIndex) in locateds" :key="locatedIndex" class="divide-x divide-gray-300" :class="[locatedIndex % 2 !== 0 ? 'bg-gray-50 hover:bg-gray-200' : 'bg-white hover:bg-gray-200']">
                             <td class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
-                                {{ located.ID }}
+                                {{ located.id }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ located.IMSI }}
+                                {{ located.imsi.imsi }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ located.TIMSI }}
+                                {{ located.timsi.timsi }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ located.CREATED_AT }}
-                            </td>
-
-                            <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                <span v-if="(located.status)" class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">Ativo</span>
-                                <span v-else class="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800">Inativo</span>
+                                {{ located.created_at }}
                             </td>
 
                             <td v-if="(1==2)" class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">

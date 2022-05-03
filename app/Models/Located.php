@@ -15,18 +15,19 @@ class Located extends Model
     protected $fillable = [
         'imsi_id',
         'timsi_id',
+        'created_at'
     ];
 
     /** Relationships */
 
     public function imsi()
     {
-        return $this->hasOne(Imsi::class, 'id', 'imsi_id')->first();
+        return $this->hasOne(Imsi::class, 'id', 'imsi_id');
     }
 
     public function timsi()
     {
-        return $this->hasOne(Timsi::class, 'id', 'timsi_id')->first();
+        return $this->hasOne(Timsi::class, 'id', 'timsi_id');
     }
 
     /** Scopes */
@@ -41,7 +42,6 @@ class Located extends Model
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
-            set: fn ($value) => convertStringToDate($value),
         );
     }
 
@@ -49,7 +49,6 @@ class Located extends Model
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
-            set: fn ($value) => convertStringToDate($value),
         );
     }
 }

@@ -21,7 +21,7 @@ class Timsi extends Model
 
     public function imsi()
     {
-        return $this->hasOne(Imsi::class, 'id', 'imsi_id')->first();
+        return $this->hasOne(Imsi::class, 'id', 'imsi_id');
     }
 
     public function locateds()
@@ -37,7 +37,6 @@ class Timsi extends Model
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
-            set: fn ($value) => convertStringToDate($value),
         );
     }
 
@@ -45,7 +44,6 @@ class Timsi extends Model
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
-            set: fn ($value) => convertStringToDate($value),
         );
     }
 }

@@ -20,4 +20,4 @@ use App\Http\Controllers\API\DataController;
 //     return $request->user();
 // });
 
-Route::post('/store',[DataController::class, 'store'])->name('api.store');
+Route::post('/datastore',[DataController::class, 'store'])->name('api.datastore');

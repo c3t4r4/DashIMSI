@@ -13,7 +13,7 @@ class Imsi extends Model
     protected $table = "imsis";
 
     protected $fillable = [
-        'imsi',
+        'imsi'
     ];
 
     /** Relationships */
@@ -36,7 +36,6 @@ class Imsi extends Model
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
-            set: fn ($value) => convertStringToDate($value),
         );
     }
 
@@ -44,7 +43,6 @@ class Imsi extends Model
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
-            set: fn ($value) => convertStringToDate($value),
         );
     }
 }

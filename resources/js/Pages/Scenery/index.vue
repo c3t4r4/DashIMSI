@@ -1,57 +1,55 @@
 <template>
-    <app-layout title="IMSI">
+    <app-layout title="IMSIs">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Cenário
+                IMSIs
             </h2>
         </template>
 
-        <div class="py-12">
+        <PageContent>
             
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-                <div class="sm:flex sm:items-center m-4">
+            <PageGridModel>
+                <template #headerPage>
                     <div class="sm:flex-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Localizados</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Cenários</h1>
                         <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Search..." />
                     </div>
-                    <div class="relative flex items-start mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                        <div class="flex items-center h-5">
-                            <input v-model="unique" id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                        </div>
-                        <div class="ml-3 text-sm">
-                            <label for="comments" class="font-medium text-gray-700">Unique</label>
-                        </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                        <button type="button" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Novo</button>
                     </div>
-                </div>
-
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4">
-                    <TableModel>
+                </template>
+                
+                <TableModel>
                         <template #header>
                                 <tr class="divide-x divide-gray-300">
                                     <th scope="col" class="py-3.5 pl-4 pr-4 text-center text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
-                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">IMSI</th>
-                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">TIMSI</th>
-                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Data Criação</th>
+                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Descrição</th>
+                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Lat/Lng</th>
+                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Data Inicio</th>
+                                    <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Data Termino</th>
                                     <th v-if="(1==2)" scope="col" class="py-3.5 pl-4 pr-4 text-center text-sm font-semibold text-gray-900 sm:pr-6">Ações</th>
                                 </tr>
                         </template>
 
-                        <tr v-for="(located, locatedIndex) in locateds" :key="locatedIndex" class="divide-x divide-gray-300" :class="[locatedIndex % 2 !== 0 ? 'bg-gray-50 hover:bg-gray-200' : 'bg-white hover:bg-gray-200']">
+                        <tr v-for="(scenery, sceneryIndex) in sceneries" :key="sceneryIndex" class="divide-x divide-gray-300" :class="[sceneryIndex % 2 !== 0 ? 'bg-gray-50 hover:bg-gray-200' : 'bg-white hover:bg-gray-200']">
                             <td class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
-                                {{ located.id }}
+                                {{ scenery.id }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ located.imsi.imsi }}
+                                {{ scenery.description }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ located.timsi.timsi }}
+                                {{ scenery.lat }} / {{ scenery.lng }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ located.created_at }}
+                                {{ located.start }}
+                            </td>
+
+                            <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
+                                {{ located.finish }}
                             </td>
 
                             <td v-if="(1==2)" class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
@@ -64,9 +62,9 @@
                         </tr>
 
                     </TableModel>
-                </div>
-            </div>
-        </div>
+                
+            </PageGridModel>
+        </PageContent>
     </app-layout>
 </template>
 
@@ -77,6 +75,9 @@
     import { PlusIcon  } from '@heroicons/vue/solid';
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
+    import PageContent from '@/Components/PagesContents/PageContent';
+    import PageGridModel from '@/Components/PagesContents/PageGridModel';
+
     import TableModel from '@/Components/Tables/TableModel';
     import TableButton from "@/Components/Tables/TableButton";
     import TablePagination from "@/Components/Tables/TablePagination";
@@ -84,19 +85,12 @@
 
     import { Inertia  } from "@inertiajs/inertia";
 
-    import VtrilProgress from "vtril-progress";
-
     import debounce from "lodash/debounce";
 
     let search = ref(props.search);
-    let unique = ref(props.unique);
-
-    var interval;
 
     let props = defineProps({ 
-        locateds: Object,
-        search: String,
-        unique: Boolean
+        sceneries: Object
     });
 
     defineComponent({
@@ -104,37 +98,17 @@
         PlusIcon,
         Head,
         Link,
+        PageContent,
+        PageGridModel,
         TableModel,
         TableButton,
         TablePagination,
         TableHeader
     });
 
-    function updateData(){
-        VtrilProgress.disable(() => {
-            Inertia.reload({ only: ['locateds'], hideProgress: true });
-        });
-    }
-
-    onMounted(() => {
-        interval = setInterval(function () {
-            updateData();
-          } , 3000);  // set 3000 to any number you need
-    });
-
-    onUnmounted(() => {
-        clearInterval(interval);
-    });
-
     watch(search, debounce(function (value) {
-        Inertia.get("/located", {unique: props.unique, search:value }, {
+        Inertia.get("/scenery", {search:value }, {
             preserveState: true
         });
     }, 300));
-
-    watch(unique, value => {
-        Inertia.get("/located", {unique: value, search:props.search }, {
-            preserveState: true
-        });
-    });
 </script>

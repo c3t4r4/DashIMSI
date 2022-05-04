@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Scenery;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SceneryController extends Controller
 {
@@ -11,9 +13,22 @@ class SceneryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $sceneries = Scenery::query()
+        ->when($request->search, function ($query, $search){
+            $query->where('description', 'like', "%${search}%")
+            ->orWhere('lat', 'like', "%${search}%")
+            ->orWhere('lng', 'like', "%${search}%")
+            ->orWhere('start', 'like', "%${search}%")
+            ->orWhere('finish', 'like', "%${search}%");
+        })
+        ->orderBy("created_at", "desc");
+
+        return Inertia::render('Scenery/index', [
+            "sceneries" => $sceneries->get(),
+            "filters" => $request->only(['search'])
+        ]);
     }
 
     /**

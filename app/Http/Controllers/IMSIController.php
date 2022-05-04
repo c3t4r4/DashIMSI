@@ -7,7 +7,6 @@ use App\Models\Located;
 use App\Models\Timsi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
 
 class IMSIController extends Controller
 {

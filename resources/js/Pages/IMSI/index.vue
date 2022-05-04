@@ -1,16 +1,15 @@
 <template>
-    <app-layout title="IMSI">
+    <app-layout title="IMSIs">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                IMSI
+                IMSIs
             </h2>
         </template>
 
-        <div class="py-12">
+        <PageContent>
             
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-                <div class="sm:flex sm:items-center m-4">
+            <PageGridModel>
+                <template #headerPage>
                     <div class="sm:flex-auto">
                         <h1 class="text-xl font-semibold text-gray-900">Localizados</h1>
                         <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Search..." />
@@ -23,10 +22,9 @@
                             <label for="comments" class="font-medium text-gray-700">Unique</label>
                         </div>
                     </div>
-                </div>
-
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4">
-                    <TableModel>
+                </template>
+                
+                <TableModel>
                         <template #header>
                                 <tr class="divide-x divide-gray-300">
                                     <th scope="col" class="py-3.5 pl-4 pr-4 text-center text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
@@ -64,9 +62,9 @@
                         </tr>
 
                     </TableModel>
-                </div>
-            </div>
-        </div>
+                
+            </PageGridModel>
+        </PageContent>
     </app-layout>
 </template>
 
@@ -76,6 +74,9 @@
     
     import { PlusIcon  } from '@heroicons/vue/solid';
     import { Head, Link } from '@inertiajs/inertia-vue3';
+
+    import PageContent from '@/Components/PagesContents/PageContent';
+    import PageGridModel from '@/Components/PagesContents/PageGridModel';
 
     import TableModel from '@/Components/Tables/TableModel';
     import TableButton from "@/Components/Tables/TableButton";
@@ -102,6 +103,8 @@
         PlusIcon,
         Head,
         Link,
+        PageContent,
+        PageGridModel,
         TableModel,
         TableButton,
         TablePagination,

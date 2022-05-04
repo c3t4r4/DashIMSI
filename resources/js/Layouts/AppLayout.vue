@@ -52,6 +52,9 @@ const logout = () => {
                                 <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </JetNavLink>
+                                <JetNavLink :href="route('scenery.index')" :active="$page.url.startsWith('Scenery')">
+                                    Cenários
+                                </JetNavLink>
                                 <JetNavLink :href="route('located')" :active="route().current('located')">
                                     IMSIS
                                 </JetNavLink>

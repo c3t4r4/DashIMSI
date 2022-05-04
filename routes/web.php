@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\IMSIController;
+use App\Http\Controllers\SceneryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,6 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/located',[IMSIController::class, 'index'])->name('located');
+
+    Route::resource('scenery', SceneryController::class);
 });

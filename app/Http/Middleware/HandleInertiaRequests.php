@@ -37,7 +37,13 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            //
+            "appName" => config("app.name"),
+            "userInfo" => [
+                "data" => date('d/m/Y H:i'),
+                "version" => config('app.version'),
+                "ip" => request()->getClientIp(),
+                "hostname" => gethostname()
+            ],
         ]);
     }
 }

@@ -16,6 +16,10 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'admin_name' => env('ADMIN_NAME', 'Admin'),
+    'admin_email' => env('ADMIN_EMAIL', 'admin@admin.com'),
+    'admin_password' => env('ADMIN_PASSWORD', 'Admin123'),
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -29,6 +33,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'version' => date('ymd.Hi'),
 
     /*
     |--------------------------------------------------------------------------

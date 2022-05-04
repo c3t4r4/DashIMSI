@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 class IMSIController extends Controller
 {
     public function index(Request $request){
+
+        $unique = (!empty($request->unique) && $request->unique == "true" ? true : false);
+        $search = (!empty($request->search) ? $request->search : "");
+
         $locateds = Located::query()
             ->with('imsi')
             ->with('timsi')
@@ -26,11 +30,15 @@ class IMSIController extends Controller
                     $query->whereIn('timsi_id', $timsiIDS);
                 });
             })
-            ->orderBy("created_at", "desc")
-            ->get();
-        
+            ->orderBy("created_at", "desc");
+
+            if(!empty($request->unique) && $request->unique == "true"){
+                $locateds->groupBy('imsi_id');
+            }
         return Inertia::render('IMSI/index', [
-            "locateds" => $locateds,
+            "locateds" => $locateds->get(),
+            "unique" => $unique,
+            "search" => $search,
             "filters" => $request->only(['search']),
         ]);
     }

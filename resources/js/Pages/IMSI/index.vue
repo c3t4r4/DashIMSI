@@ -15,8 +15,13 @@
                         <h1 class="text-xl font-semibold text-gray-900">Localizados</h1>
                         <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Search..." />
                     </div>
-                    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                        <Link type="button" :href="route('located')" methods="get" class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto">Recarregar</Link>
+                    <div class="relative flex items-start mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                        <div class="flex items-center h-5">
+                            <input v-model="unique" id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="comments" class="font-medium text-gray-700">Unique</label>
+                        </div>
                     </div>
                 </div>
 
@@ -81,12 +86,16 @@
 
     import VtrilProgress from "vtril-progress";
 
-    let search = ref('');
+    let search = ref(props.search);
+    let unique = ref(props.unique);
 
     var interval;
 
-    defineProps({ 
+    let props = defineProps({ 
         locateds: Object,
+        filters: String,
+        search: String,
+        unique: Boolean
     });
 
     defineComponent({
@@ -101,7 +110,6 @@
     });
 
     function updateData(){
-        //console.log("Recarregou!!!");
         VtrilProgress.disable(() => {
             Inertia.reload({ only: ['locateds'], hideProgress: true });
         });
@@ -118,7 +126,13 @@
     });
 
     watch(search, value => {
-        Inertia.get("/located", {search:value }, {
+        Inertia.get("/located", {unique: props.unique, search:value }, {
+            preserveState: true
+        });
+    });
+
+    watch(unique, value => {
+        Inertia.get("/located", {unique: value, search:props.search }, {
             preserveState: true
         });
     });

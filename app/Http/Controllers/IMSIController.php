@@ -26,6 +26,7 @@ class IMSIController extends Controller
                     $query->whereIn('timsi_id', $timsiIDS);
                 });
             })
+            ->orderBy("created_at", "desc")
             ->get();
         
         return Inertia::render('IMSI/index', [

@@ -101,7 +101,7 @@
     });
 
     function updateData(){
-        console.log("Recarregou!!!");
+        //console.log("Recarregou!!!");
         VtrilProgress.disable(() => {
             Inertia.reload({ only: ['locateds'], hideProgress: true });
         });

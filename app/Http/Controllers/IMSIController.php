@@ -32,7 +32,8 @@ class IMSIController extends Controller
             ->orderBy("created_at", "desc");
 
             if(!empty($request->unique) && $request->unique == "true"){
-                $locateds->groupBy('imsi_id');
+                //$locateds->groupBy('imsi_id');
+                $locateds->distinct();
             }
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds->get(),

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
-            $table->timestamps('start');
-            $table->timestamps('finish');
+            $table->timestamp('start');
+            $table->timestamp('finish');
             $table->timestamps();
         });
     }

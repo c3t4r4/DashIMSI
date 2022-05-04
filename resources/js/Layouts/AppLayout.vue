@@ -52,7 +52,7 @@ const logout = () => {
                                 <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </JetNavLink>
-                                <JetNavLink :href="route('scenery.index')" :active="route().current('scenery')">
+                                <JetNavLink :href="route('scenery.index')" :active="($page.url.includes('scenery') ? true : false)">
                                     Cenários
                                 </JetNavLink>
                                 <JetNavLink :href="route('located')" :active="route().current('located')">

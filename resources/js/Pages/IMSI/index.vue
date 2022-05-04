@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-    import { defineComponent, ref, watch } from 'vue'
+    import { defineComponent, ref, watch, onMounted, onUnmounted } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     
     import { PlusIcon  } from '@heroicons/vue/solid';
@@ -79,7 +79,11 @@
 
     import { Inertia  } from "@inertiajs/inertia";
 
+    import VtrilProgress from "vtril-progress";
+
     let search = ref('');
+
+    var interval;
 
     defineProps({ 
         locateds: Object,
@@ -94,6 +98,23 @@
         TableButton,
         TablePagination,
         TableHeader
+    });
+
+    function updateData(){
+        console.log("Recarregou!!!");
+        VtrilProgress.disable(() => {
+            Inertia.reload({ only: ['locateds'], hideProgress: true });
+        });
+    }
+
+    onMounted(() => {
+        interval = setInterval(function () {
+            updateData();
+          } , 3000);  // set 3000 to any number you need
+    });
+
+    onUnmounted(() => {
+        clearInterval(interval);
     });
 
     watch(search, value => {

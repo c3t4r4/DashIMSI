@@ -7,7 +7,7 @@ require 'recipe/laravel.php';
 set('application', 'DashIMSI');
 
 // Project repository
-set('repository', 'git@https://github.com/c3t4r4/DashIMSI.git');
+set('repository', 'git@github.com:c3t4r4/DashIMSI.git');
 
 
 // [Optional] Allocate tty for git clone. Default value is false.

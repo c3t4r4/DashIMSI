@@ -93,7 +93,6 @@
 
     let props = defineProps({ 
         locateds: Object,
-        filters: String,
         search: String,
         unique: Boolean
     });

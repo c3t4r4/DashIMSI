@@ -38,8 +38,7 @@ class IMSIController extends Controller
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds->get(),
             "unique" => $unique,
-            "search" => $search,
-            "filters" => $request->only(['search']),
+            "search" => $search
         ]);
     }
 }

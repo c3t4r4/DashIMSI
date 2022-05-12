@@ -26,6 +26,20 @@ class Scenery extends Model
 
     /** Atributtes */
 
+    protected function start(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => convertDateTimeBR($value),
+        );
+    }
+
+    protected function finish(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => convertDateTimeBR($value),
+        );
+    }
+
     protected function updatedAt(): Attribute
     {
         return new Attribute(

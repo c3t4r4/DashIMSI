@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
             $table->timestamp('start');
-            $table->timestamp('finish');
+            $table->timestamp('finish')->nullable();
             $table->timestamps();
         });
     }

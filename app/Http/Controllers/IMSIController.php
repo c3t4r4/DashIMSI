@@ -31,10 +31,11 @@ class IMSIController extends Controller
             })
             ->orderBy("created_at", "desc");
 
-            if(!empty($request->unique) && $request->unique == "true"){
-                //$locateds->groupBy('imsi_id');
-                $locateds->distinct();
-            }
+            // if(!empty($request->unique) && $request->unique == "true"){
+            //     $oldlocatedes = $locateds->get('id')->toArray('id');
+            //     dd($oldlocatedes);
+            //     //$locateds = DBgroupBy('imsi_id');
+            // }
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds->get(),
             "unique" => $unique,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Scenery;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 
 class SceneryController extends Controller
 {
@@ -38,7 +39,7 @@ class SceneryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Scenery/create');
     }
 
     /**
@@ -49,7 +50,28 @@ class SceneryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'start' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                        ->route('scenery.create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $scenery = new Scenery();
+        $scenery->fill($request->all());
+
+        if (!$scenery->save()) {
+            return redirect()
+                        ->route('scenery.create')
+                        ->withInput();
+        }
+
+        return redirect()->route('scenery.index');
     }
 
     /**
@@ -60,7 +82,9 @@ class SceneryController extends Controller
      */
     public function show($id)
     {
-        //
+        $scenery = Scenery::find($id);
+
+        dd($scenery);
     }
 
     /**
@@ -74,6 +98,34 @@ class SceneryController extends Controller
         //
     }
 
+
+
+
+    public function finishScenery($id)
+    {
+        $scenery = Scenery::find($id);
+
+        if($scenery->id > 0){
+            $scenery->finish = now();
+            $scenery->save();
+        }
+
+        return redirect()->route('scenery.index');
+    }
+
+
+    public function renewScenery($id)
+    {
+        $scenery = Scenery::find($id);
+
+        if($scenery->id > 0){
+            $scenery->finish = null;
+            $scenery->save();
+        }
+
+        return redirect()->route('scenery.index');
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -83,7 +135,23 @@ class SceneryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $scenery = Scenery::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'start' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                        ->route('scenery.create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $scenery->update($request->all());
+
+        return redirect()->route('scenery.index');
     }
 
     /**
@@ -94,6 +162,12 @@ class SceneryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $scenery = Scenery::find($id);
+
+        if($scenery->id > 0){
+            $scenery->delete();
+        }
+
+        return redirect()->route('scenery.index');
     }
 }

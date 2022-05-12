@@ -42,5 +42,10 @@ Route::middleware([
 
     Route::get('/located',[IMSIController::class, 'index'])->name('located');
 
+    
     Route::resource('scenery', SceneryController::class);
+    Route::patch('/scenery/{id}/finish',[SceneryController::class, 'finishScenery'])->name('scenery.finish');
+    Route::patch('/scenery/{id}/renew',[SceneryController::class, 'renewScenery'])->name('scenery.renew');
+
+    
 });

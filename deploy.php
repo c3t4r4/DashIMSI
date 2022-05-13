@@ -33,7 +33,7 @@ task('build', function () {
 });
 
 task('deploy:composer_install', function() {
-    run('cd {{release_path}} && composer install && composer require owen-it/laravel-auditing');
+    run('cd {{release_path}} && composer install');
 });
 
 task('deploy:npm_install', function() {

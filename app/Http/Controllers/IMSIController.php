@@ -34,8 +34,9 @@ class IMSIController extends Controller
             });
 
             if($unique){
-                dd($locateds->get('id'))->toArray();
-                $locateds = Located::whereIn('id',);
+                $locateds = Located::whereIn('id',$locateds->get('id')->toArray())
+                ->with('imsi')
+                ->with('timsi');
             }else{
                 $locateds->orderBy("created_at", "desc");
             }
@@ -49,7 +50,7 @@ class IMSIController extends Controller
             // }
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds->get(),
-            "unique" => $unique,
+            "unique" => $request->unique,
             "search" => $search
         ]);
     }

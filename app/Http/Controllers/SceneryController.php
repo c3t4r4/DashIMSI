@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Located;
 use App\Models\Scenery;
+use App\Models\Imsi;
+use App\Models\Timsi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
@@ -97,16 +99,23 @@ class SceneryController extends Controller
             })
 
             ->when($request->search, function ($query, $search){
-                $query->where('imsi', 'like', "%${search}%")
-                ->orWhere('timsi', 'like', "%${search}%")
-                ->orWhere('created_at', 'like', "%${search}%");
+                $imsiIDS = Imsi::where('imsi', 'like', "%${search}%")->get('id')->toArray();
+                $timsiIDS = Timsi::where('timsi', 'like', "%${search}%")->get('id')->toArray();
+
+                $query->where(function($query) use($imsiIDS) {
+                    $query->whereIn('imsi_id', $imsiIDS);
+                });
+                $query->orWhere(function($query) use($timsiIDS) {
+                    $query->whereIn('timsi_id', $timsiIDS);
+                });
             })
             ->orderBy("created_at", "desc");
 
             return Inertia::render('Scenery/show', [
                 "locateds" => $locateds->get(),
                 "scenery" => $scenery,
-                "filters" => $request->only(['search'])
+                "search" => $request->only(['search']),
+                "unique" => $request->only(['unique'])
             ]);
 
         }
@@ -141,9 +150,6 @@ class SceneryController extends Controller
         return redirect()->route('scenery.index');
 
     }
-
-
-
 
     public function finishScenery($id)
     {

@@ -57,9 +57,9 @@
 
                             <td v-if="(1==2)" class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
                                 <div class="flex justify-center items-center space-x-2">
-                                    <TableButton type="show" :route="`users/${located.ID}`" method="get" />
-                                    <TableButton type="edit" :route="`users/${located.ID}`" method="post" />
-                                    <TableButton type="delete" :route="`users/${located.ID}/destroy`" method="delete" />
+                                    <TableButton type="show" :route="`users/${located.id}`" method="get" />
+                                    <TableButton type="edit" :route="`users/${located.id}`" method="post" />
+                                    <TableButton type="delete" :route="`users/${located.id}/destroy`" method="delete" />
                                 </div>
                             </td>
                         </tr>
@@ -90,9 +90,6 @@
 
     import VtrilProgress from "vtril-progress";
 
-    let search = ref(props.search);
-    let unique = ref(props.unique);
-
     var interval;
 
     let props = defineProps({ 
@@ -101,6 +98,9 @@
         search: String,
         unique: Boolean
     });
+
+    let search = ref(props.search);
+    let unique = ref(props.unique);
 
     defineComponent({
         AppLayout,
@@ -132,13 +132,13 @@
     });
 
     watch(search, value => {
-        Inertia.get(`/scenary/${props.scenary.id}`, {unique: props.unique, search:value }, {
+        Inertia.get(`/scenery/${props.scenery.id}`, {unique: props.unique, search:value }, {
             preserveState: true
         });
     });
 
     watch(unique, value => {
-        Inertia.get(`/scenary/${props.scenary.id}`, {unique: value, search:props.search }, {
+        Inertia.get(`/scenery/${props.scenary.id}`, {unique: value, search:props.search }, {
             preserveState: true
         });
     });

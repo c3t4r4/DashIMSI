@@ -86,10 +86,10 @@ class SceneryController extends Controller
         $scenery = Scenery::find($id);
 
         if($scenery->id > 0){
-            $locateds = Located::where('created_at', '>=', convertDateTimeToDate($scenery->start))
+            $locateds = Located::where('created_at', '>=', convertStringToDateTime($scenery->start))
 
             ->when($scenery->finish, function ($query, $finish){
-                $query->where('created_at', '<=', convertDateTimeToDate($finish));
+                $query->where('created_at', '<=', convertStringToDateTime($finish));
             })
 
             ->when($request->search, function ($query, $search){

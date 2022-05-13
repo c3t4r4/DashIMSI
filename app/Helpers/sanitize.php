@@ -90,6 +90,17 @@ if (! function_exists('convertStringToDate')) {
     }
 }
 
+if (! function_exists('convertStringToDateTime')) {
+    function convertStringToDateTime(?string $param)
+    {
+        if(empty($param)){
+            return null;
+        }
+
+        return date('Y-m-d H:i:s', strtotime($param));
+    }
+}
+
 if (! function_exists('convertDateTimeToDate')) {
     function convertDateTimeToDate(?string $param)
     {

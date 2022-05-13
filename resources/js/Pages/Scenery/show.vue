@@ -138,7 +138,7 @@
     });
 
     watch(unique, value => {
-        Inertia.get(`/scenery/${props.scenary.id}`, {unique: value, search:props.search }, {
+        Inertia.get(`/scenery/${props.scenery.id}`, {unique: value, search:props.search }, {
             preserveState: true
         });
     });

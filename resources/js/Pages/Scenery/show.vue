@@ -132,13 +132,13 @@
     });
 
     watch(search, value => {
-        Inertia.get("/located", {unique: props.unique, search:value }, {
+        Inertia.get(`/scenary/${props.scenary.id}`, {unique: props.unique, search:value }, {
             preserveState: true
         });
     });
 
     watch(unique, value => {
-        Inertia.get("/located", {unique: value, search:props.search }, {
+        Inertia.get(`/scenary/${props.scenary.id}`, {unique: value, search:props.search }, {
             preserveState: true
         });
     });

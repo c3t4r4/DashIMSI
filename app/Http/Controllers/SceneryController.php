@@ -113,24 +113,14 @@ class SceneryController extends Controller
                 });
             })
             ->when($unique, function ($query){
-                $query->groupBy('imsi_id');
+                $query->distinct('imsi_id');
             });
-
-            if($unique){
-                $locateds = Located::whereIn('id',$locateds->get('id')->toArray())
-                ->with('imsi')
-                ->with('timsi');
-            }else{
-                $locateds->orderBy("created_at", "desc");
-            }
-
-            $locateds->orderBy("created_at", "desc");
 
             return Inertia::render('Scenery/show', [
                 "locateds" => $locateds->get(),
                 "scenery" => $scenery,
-                "search" => $request->unique,
-                "unique" => $request->search
+                "search" => $request->search,
+                "unique" => $request->unique
             ]);
 
         }

@@ -8,7 +8,7 @@
             <PageGridModel>
                 <template #headerPage>
                     <div class="sm:flex-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Cenário - ID: {{ scenery.id }} - Localizados</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Cenário - ID: {{ sceneryID }} - Localizados</h1>
                         <p class="m-3" v-if="!scenery.finish" >Período - {{ scenery.start }} </p>
                         <p class="m-3" v-else >Período - {{ scenery.start }} à {{ scenery.finish }}</p>
 
@@ -16,7 +16,7 @@
                     </div>
                     <div class="relative flex items-start mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                         <div class="flex items-center h-5">
-                            <input v-model="unique" id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                            <input v-model="unique" id="Unique" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </div>
                         <div class="ml-3 text-sm">
                             <label for="comments" class="font-medium text-gray-700">Unique</label>
@@ -102,6 +102,7 @@
     let search = ref(props.search);
     let unique = ref(props.unique);
 
+
     defineComponent({
         AppLayout,
         PlusIcon,
@@ -117,7 +118,7 @@
 
     function updateData(){
         VtrilProgress.disable(() => {
-            Inertia.reload({ only: ['locateds'], hideProgress: true });
+            Inertia.reload({ only: ['locateds','scenery', 'sceneryID', 'search', 'unique'], hideProgress: true });
         });
     }
 
@@ -132,13 +133,13 @@
     });
 
     watch(search, value => {
-        Inertia.get(`/scenery/${props.scenery.id}`, {unique: props.unique, search:value }, {
+        Inertia.get(`/scenery/${props.scenery['id']}`, {unique: props.unique, search:value }, {
             preserveState: true
         });
     });
 
     watch(unique, value => {
-        Inertia.get(`/scenery/${props.scenery.id}`, {unique: value, search:props.search }, {
+        Inertia.get(`/scenery/${props.scenery['id']}`, {unique: value, search:props.search }, {
             preserveState: true
         });
     });

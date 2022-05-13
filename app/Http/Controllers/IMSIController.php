@@ -30,24 +30,12 @@ class IMSIController extends Controller
                 });
             })
             ->when($unique, function ($query){
-                $query->groupBy('imsi_id','id');
+                $query->distinct('imsi_id');
             });
 
-            if($unique){
-                $locateds = Located::whereIn('id',$locateds->get('id')->toArray())
-                ->with('imsi')
-                ->with('timsi');
-            }else{
+            if(!$unique){
                 $locateds->orderBy("created_at", "desc");
             }
-            
-            $locateds->orderBy("created_at", "desc");
-
-            // if(!empty($request->unique) && $request->unique == "true"){
-            //     $oldlocatedes = $locateds->get('id')->toArray('id');
-            //     dd($oldlocatedes);
-            //     //$locateds = DBgroupBy('imsi_id');
-            // }
         return Inertia::render('IMSI/index', [
             "locateds" => $locateds->get(),
             "unique" => $request->unique,

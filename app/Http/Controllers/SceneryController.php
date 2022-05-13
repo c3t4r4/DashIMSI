@@ -86,13 +86,12 @@ class SceneryController extends Controller
         $scenery = Scenery::find($id);
 
         if($scenery->id > 0){
-            $locateds = Located::query()
-            ->where('created_at' >= $scenery->start)
+            $locateds = Located::where('created_at', '>=', convertDateTimeToDate($scenery->start))
 
             ->when($scenery->finish, function ($query, $finish){
-                $query->where('created_at', '<=', $finish);
+                $query->where('created_at', '<=', convertDateTimeToDate($finish));
             })
-            
+
             ->when($request->search, function ($query, $search){
                 $query->where('imsi', 'like', "%${search}%")
                 ->orWhere('timsi', 'like', "%${search}%")
@@ -101,7 +100,8 @@ class SceneryController extends Controller
             ->orderBy("created_at", "desc");
 
             return Inertia::render('Scenery/show', [
-                "locateds" => $locateds,
+                "locateds" => $locateds->get(),
+                "scenery" => $scenery,
                 "filters" => $request->only(['search'])
             ]);
 

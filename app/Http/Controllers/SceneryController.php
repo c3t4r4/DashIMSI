@@ -88,9 +88,13 @@ class SceneryController extends Controller
         if($scenery->id > 0){
             $locateds = Located::query()
             ->where('created_at' >= $scenery->start)
+
+            ->when($scenery->finish, function ($query, $finish){
+                $query->where('created_at', '<=', $finish);
+            })
+            
             ->when($request->search, function ($query, $search){
-                $query->where('description', 'like', "%${search}%")
-                ->orWhere('imsi', 'like', "%${search}%")
+                $query->where('imsi', 'like', "%${search}%")
                 ->orWhere('timsi', 'like', "%${search}%")
                 ->orWhere('created_at', 'like', "%${search}%");
             })

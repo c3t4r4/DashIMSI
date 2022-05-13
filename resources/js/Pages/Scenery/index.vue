@@ -52,7 +52,7 @@
                             <td class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
                                 <div class="flex justify-center items-center space-x-2">
                                     <TableButton type="show" :route="`scenery/${scenery.id}`" method="get" />
-                                    <TableButton type="edit" :route="`scenery/${scenery.id}`" method="post" />
+                                    <TableButton type="edit" :route="`scenery/${scenery.id}/edit`" method="get" />
                                     <TableButton type="delete" :route="`scenery/${scenery.id}`" method="delete" />
 
                                     <Link v-if="!scenery.finish" :href="`scenery/${scenery.id}/finish`" method="patch" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-stone-600 hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500" title="Encerrar Cenário">

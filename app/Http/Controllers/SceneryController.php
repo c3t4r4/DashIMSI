@@ -7,6 +7,8 @@ use App\Models\Scenery;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Expr\Cast\Object_;
+use stdClass;
 
 class SceneryController extends Controller
 {
@@ -86,7 +88,9 @@ class SceneryController extends Controller
         $scenery = Scenery::find($id);
 
         if($scenery->id > 0){
-            $locateds = Located::where('created_at', '>=', convertStringToDateTime($scenery->start))
+            $locateds = Located::with('imsi')
+            ->with('timsi')
+            ->where('created_at', '>=', convertStringToDateTime($scenery->start))
 
             ->when($scenery->finish, function ($query, $finish){
                 $query->where('created_at', '<=', convertStringToDateTime($finish));
@@ -118,7 +122,24 @@ class SceneryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $scenery = Scenery::find($id);
+
+        if($scenery->id > 0){
+            $object = new stdClass;
+            $object->id = $scenery->id;
+            $object->start = convertStringToDateTimeVue($scenery->start);
+            $object->finish = (!empty($scenery->finish) ? convertStringToDateTimeVue($scenery->finish) : "");
+            $object->lat = $scenery->lat;
+            $object->lng = $scenery->lng;
+            $object->description = $scenery->description;
+
+            return Inertia::render('Scenery/edit', [
+                "scenery" => $object
+            ]);
+        }
+
+        return redirect()->route('scenery.index');
+
     }
 
 
@@ -172,7 +193,21 @@ class SceneryController extends Controller
                         ->withInput();
         }
 
-        $scenery->update($request->all());
+        $scenery->start = $request->start;
+        $scenery->finish = $request->finish;
+        $scenery->description = $request->description;
+        $scenery->lat = $request->lat;
+        $scenery->lng = $request->lng;
+
+        
+
+        if (!$scenery->save()) {
+            return redirect()
+                        ->route('scenery.edit')
+                        ->withInput();
+        }
+
+
 
         return redirect()->route('scenery.index');
     }

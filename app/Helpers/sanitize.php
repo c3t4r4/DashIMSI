@@ -109,6 +109,25 @@ if (! function_exists('convertStringToDateTime')) {
     }
 }
 
+if (! function_exists('convertStringToDateTimeVue')) {
+    function convertStringToDateTimeVue(?string $param)
+    {
+        if(empty($param)){
+            return null;
+        }
+
+        list($day, $month, $yearTime) = explode('/', $param);
+        list($year,$time) = explode(' ', $yearTime);
+        try {
+            return str_replace(' ','T',(new DateTime($year . '-' . $month . '-' . $day . ' ' .$time))->format('Y-m-d H:i'));
+        } catch (Exception $e) {
+            return null;
+        }
+
+        return str_replace(' ','T',date('Y-m-d H:i', strtotime($param)));
+    }
+}
+
 if (! function_exists('convertDateTimeToDate')) {
     function convertDateTimeToDate(?string $param)
     {

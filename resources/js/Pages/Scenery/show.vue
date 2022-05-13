@@ -1,5 +1,5 @@
 <template>
-    <app-layout title="IMSIs">
+    <app-layout title="Cenários">
         <template #header>
         </template>
 
@@ -8,7 +8,7 @@
             <PageGridModel>
                 <template #headerPage>
                     <div class="sm:flex-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Localizados</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Cenário - ID: {{ }} - Localizados</h1>
                         <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Busca..." />
                     </div>
                     <div class="relative flex items-start mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -18,6 +18,9 @@
                         <div class="ml-3 text-sm">
                             <label for="comments" class="font-medium text-gray-700">Unique</label>
                         </div>
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                        <Link as="button" :href="route('scenery.index')" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Voltar</Link>
                     </div>
                 </template>
                 

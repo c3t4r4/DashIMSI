@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Located;
 use App\Models\Scenery;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -80,11 +81,29 @@ class SceneryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $scenery = Scenery::find($id);
 
-        dd($scenery);
+        if($scenery->id > 0){
+            $locateds = Located::query()
+            ->where('created_at' >= $scenery->start)
+            ->when($request->search, function ($query, $search){
+                $query->where('description', 'like', "%${search}%")
+                ->orWhere('imsi', 'like', "%${search}%")
+                ->orWhere('timsi', 'like', "%${search}%")
+                ->orWhere('created_at', 'like', "%${search}%");
+            })
+            ->orderBy("created_at", "desc");
+
+            return Inertia::render('Scenery/show', [
+                "locateds" => $locateds,
+                "filters" => $request->only(['search'])
+            ]);
+
+        }
+
+        return redirect()->route('scenery.index');
     }
 
     /**

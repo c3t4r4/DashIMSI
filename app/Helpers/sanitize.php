@@ -97,6 +97,14 @@ if (! function_exists('convertStringToDateTime')) {
             return null;
         }
 
+        list($day, $month, $yearTime) = explode('/', $param);
+        list($year,$time) = explode(' ', $yearTime);
+        try {
+            return (new DateTime($year . '-' . $month . '-' . $day . ' ' .$time))->format('Y-m-d H:i:s');
+        } catch (Exception $e) {
+            return null;
+        }
+
         return date('Y-m-d H:i:s', strtotime($param));
     }
 }

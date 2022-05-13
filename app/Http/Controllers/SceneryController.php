@@ -90,6 +90,9 @@ class SceneryController extends Controller
         $scenery = Scenery::find($id);
 
         if($scenery->id > 0){
+
+            $unique = (!empty($request->unique) && $request->unique == "true" ? true : false);
+
             $locateds = Located::with('imsi')
             ->with('timsi')
             ->where('created_at', '>=', convertStringToDateTime($scenery->start))
@@ -108,6 +111,9 @@ class SceneryController extends Controller
                 $query->orWhere(function($query) use($timsiIDS) {
                     $query->whereIn('timsi_id', $timsiIDS);
                 });
+            })
+            ->when($unique, function ($query){
+                $query->groupBy('imsi_id');
             })
             ->orderBy("created_at", "desc");
 

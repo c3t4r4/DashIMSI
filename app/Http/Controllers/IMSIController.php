@@ -29,7 +29,18 @@ class IMSIController extends Controller
                     $query->whereIn('timsi_id', $timsiIDS);
                 });
             })
-            ->orderBy("created_at", "desc");
+            ->when($unique, function ($query){
+                $query->groupBy('imsi_id','id');
+            });
+
+            if($unique){
+                dd($locateds->get('id'))->toArray();
+                $locateds = Located::whereIn('id',);
+            }else{
+                $locateds->orderBy("created_at", "desc");
+            }
+            
+            $locateds->orderBy("created_at", "desc");
 
             // if(!empty($request->unique) && $request->unique == "true"){
             //     $oldlocatedes = $locateds->get('id')->toArray('id');

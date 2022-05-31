@@ -181,6 +181,17 @@ class SceneryController extends Controller
         return redirect()->route('scenery.index');
     }
 
+    public function compareScenery(Request $request)
+    {
+        $ids = $request->all();
+
+        // foreach($ids as $id){
+
+        // }
+
+        dd($ids);
+    }
+
     /**
      * Update the specified resource in storage.
      *

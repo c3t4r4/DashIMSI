@@ -14,11 +14,17 @@
                     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                         <Link as="button" :href="route('scenery.create')" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Novo</Link>
                     </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                        <Link v-if="selectedPeople.length > 1" as="button" :href="route('scenery.compare')" method="post" :data="selectedPeople" class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto">Comparar</Link>
+                    </div>
                 </template>
                 
                 <TableModel>
                         <template #header>
                                 <tr class="divide-x divide-gray-300">
+                                    <th scope="col" class="relative w-12 px-6 sm:w-16 sm:px-8">
+                                        <input type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6" disabled="disabled" />
+                                    </th>
                                     <th scope="col" class="py-3.5 pl-4 pr-4 text-center text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
                                     <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Descrição</th>
                                     <th scope="col" class="px-4 py-3.5 text-center text-sm font-semibold text-gray-900">Lat/Lng</th>
@@ -29,6 +35,10 @@
                         </template>
 
                         <tr v-for="(scenery, sceneryIndex) in sceneries" :key="sceneryIndex" class="divide-x divide-gray-300" :class="[sceneryIndex % 2 !== 0 ? 'bg-gray-50 hover:bg-gray-200' : 'bg-white hover:bg-gray-200']">
+                            <td class="relative w-12 px-6 sm:w-16 sm:px-8">
+                                <div v-if="selectedPeople.includes(scenery.id)" class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
+                                <input type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6" :value="scenery.id" v-model="selectedPeople" />
+                            </td>
                             <td class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
                                 {{ scenery.id }}
                             </td>
@@ -51,15 +61,15 @@
 
                             <td class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
                                 <div class="flex justify-center items-center space-x-2">
-                                    <TableButton type="show" :route="`scenery/${scenery.id}`" method="get" />
-                                    <TableButton type="edit" :route="`scenery/${scenery.id}/edit`" method="get" />
-                                    <TableButton type="delete" :route="`scenery/${scenery.id}`" method="delete" />
+                                    <TableButton :id="`show-${scenery.id}`" type="show" :route="`scenery/${scenery.id}`" method="get" />
+                                    <TableButton :id="`edit-${scenery.id}`" type="edit" :route="`scenery/${scenery.id}/edit`" method="get" />
+                                    <TableButton :id="`delete-${scenery.id}`" type="delete" :route="`scenery/${scenery.id}`" method="delete" />
 
-                                    <Link v-if="!scenery.finish" :href="`scenery/${scenery.id}/finish`" method="patch" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-stone-600 hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500" title="Encerrar Cenário">
+                                    <Link v-if="!scenery.finish" :id="`closed-${scenery.id}`" :href="`scenery/${scenery.id}/finish`" method="patch" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-stone-600 hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500" title="Encerrar Cenário">
                                         <LockClosedIcon class="h-5 w-5" aria-hidden="true" />
                                     </Link>
 
-                                    <Link v-else :href="`scenery/${scenery.id}/renew`" method="patch" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-stone-600 hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500" title="Reabrir Cenário">
+                                    <Link v-else :id="`open-${scenery.id}`" :href="`scenery/${scenery.id}/renew`" method="patch" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-stone-600 hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500" title="Reabrir Cenário">
                                         <LockOpenIcon class="h-5 w-5" aria-hidden="true" />
                                     </Link>
 
@@ -100,6 +110,8 @@
     let props = defineProps({ 
         sceneries: Object
     });
+
+    const selectedPeople = ref([])
 
     defineComponent({
         AppLayout,

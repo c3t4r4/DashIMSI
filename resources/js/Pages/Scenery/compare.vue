@@ -8,19 +8,8 @@
             <PageGridModel>
                 <template #headerPage>
                     <div class="sm:flex-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Cenário - Comparando: {{ sceneryID }} - Localizados</h1>
-                        <p class="m-3" v-if="!scenery.finish" >Período - {{ scenery.start }} </p>
-                        <p class="m-3" v-else >Período - {{ scenery.start }} à {{ scenery.finish }}</p>
-
-                        <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Busca..." />
-                    </div>
-                    <div class="relative flex items-start mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                        <div class="flex items-center h-5">
-                            <input v-model="unique" id="Unique" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                        </div>
-                        <div class="ml-3 text-sm">
-                            <label for="comments" class="font-medium text-gray-700">Unique</label>
-                        </div>
+                        <h1 class="text-xl font-semibold text-gray-900">Comparando: Cenários</h1>
+                        <p class="m-3" v-for="(scenary, scenaryIndex) in scenariesTitle" :key="scenaryIndex">Cenário - ID: {{ scenary.id }} - Descrição: {{ scenary.description }} - Início: {{ scenary.start }} - Fim: {{ scenary.finish }}</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                         <Link as="button" :href="route('scenery.index')" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Voltar</Link>
@@ -90,18 +79,12 @@
 
     import VtrilProgress from "vtril-progress";
 
-    var interval;
-
     let props = defineProps({ 
         locateds: Object,
-        scenery: Object,
+        scenariesTitle: Object,
         search: String,
         unique: Boolean
     });
-
-    let search = ref(props.search);
-    let unique = ref(props.unique);
-
 
     defineComponent({
         AppLayout,
@@ -118,29 +101,10 @@
 
     function updateData(){
         VtrilProgress.disable(() => {
-            Inertia.reload({ only: ['locateds','scenery', 'sceneryID', 'search', 'unique'], hideProgress: true });
+            Inertia.reload({ only: ['locateds','scenariesTitle','search', 'unique'], hideProgress: true });
         });
     }
 
-    onMounted(() => {
-        interval = setInterval(function () {
-            updateData();
-          } , 3000);  // set 3000 to any number you need
-    });
-
     onUnmounted(() => {
-        clearInterval(interval);
-    });
-
-    watch(search, value => {
-        Inertia.get(`/scenery/${props.scenery['id']}`, {unique: props.unique, search:value }, {
-            preserveState: true
-        });
-    });
-
-    watch(unique, value => {
-        Inertia.get(`/scenery/${props.scenery['id']}`, {unique: value, search:props.search }, {
-            preserveState: true
-        });
     });
 </script>

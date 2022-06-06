@@ -87,6 +87,10 @@ class SceneryController extends Controller
      */
     public function show(Request $request, $id)
     {
+        if(!is_numeric($id)){
+            return redirect()->route('scenery.index');
+        }
+        
         $scenery = Scenery::find($id);
 
         if($scenery->id > 0){
@@ -183,13 +187,50 @@ class SceneryController extends Controller
 
     public function compareScenery(Request $request)
     {
-        $ids = $request->all();
+        $ids = $request->scenaries ?? $request->all();
+        $initIDS = NULL;
 
-        // foreach($ids as $id){
+        $scenariesTitle = [];
 
-        // }
+        foreach($ids as $id){
 
-        dd($ids);
+            if(!is_numeric($id)){
+                return redirect()->route('scenery.index');
+            }
+
+            $scenary = Scenery::find($id);
+
+            $scenariesTitle[] = $scenary;
+
+            $LocatedIDS = Located::where("created_at", ">=", $scenary->start);
+
+            if(!empty($scenary->finish)){
+                $LocatedIDS->where("created_at", "<=", $scenary->finish);
+            }
+
+            if(!$initIDS){
+                $initIDS = $LocatedIDS->pluck('id')->toArray();
+            }else{
+                $initIDS = array_intersect($initIDS, $LocatedIDS->pluck('id')->toArray());
+            }
+        }
+
+        $unique = (!empty($request->unique) && $request->unique == "true" ? true : false);
+
+        $locateds = Located::with('imsi')
+        ->with('timsi')
+        ->whereIn("id", $initIDS)
+        ->when($unique, function ($query){
+            $query->distinct('imsi_id');
+        });
+
+        return Inertia::render('Scenery/compare', [
+            "scenaries" => $ids,
+            "scenariesTitle" => $scenariesTitle,
+            "locateds" => $locateds->get(),
+            "search" => $request->search,
+            "unique" => $request->unique
+        ]);
     }
 
     /**

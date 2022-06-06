@@ -9,8 +9,8 @@
                 <template #headerPage>
                     <div class="sm:flex-auto">
                         <h1 class="text-xl font-semibold text-gray-900">Cenário - ID: {{ scenery.id }} - Localizados</h1>
-                        <p class="m-3" v-if="!scenery.finish_local" >Período - {{ scenery.start_local }} </p>
-                        <p class="m-3" v-else >Período - {{ scenery.start_local }} à {{ scenery.finish_local }}</p>
+                        <p class="m-3" v-if="!scenery.lc_finish" >Período - {{ scenery.lc_start }} </p>
+                        <p class="m-3" v-else >Período - {{ scenery.lc_start }} à {{ scenery.lc_finish }}</p>
 
                         <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Busca..." />
                     </div>

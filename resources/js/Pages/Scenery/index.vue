@@ -52,11 +52,11 @@
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ scenery.start_local }}
+                                {{ scenery.lc_start }}
                             </td>
 
                             <td class="whitespace-nowrap text-center p-4 text-sm text-gray-500">
-                                {{ scenery.finish_local }}
+                                {{ scenery.lc_finish }}
                             </td>
 
                             <td class="whitespace-nowrap text-center py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">

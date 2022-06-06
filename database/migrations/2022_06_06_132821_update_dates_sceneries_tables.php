@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('sceneries', function (Blueprint $table) {
-            $table->timestamp('start_local')->nullable();
-            $table->timestamp('finish_local')->nullable();
+            $table->timestamp('lc_start')->nullable();
+            $table->timestamp('lc_finish')->nullable();
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('sceneries', function (Blueprint $table) {
-            $table->dropColumn('start_local');
-            $table->dropColumn('finish_local');
+            $table->dropColumn('lc_start');
+            $table->dropColumn('lc_finish');
         });
     }
 };

@@ -170,6 +170,7 @@ class SceneryController extends Controller
 
         if($scenery->id > 0){
             $scenery->finish = now();
+            $scenery->lc_finish = $scenery->finish;
             $scenery->save();
         }
 
@@ -183,6 +184,7 @@ class SceneryController extends Controller
 
         if($scenery->id > 0){
             $scenery->finish = null;
+            $scenery->lc_finish = null;
             $scenery->save();
         }
 

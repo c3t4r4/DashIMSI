@@ -14,14 +14,14 @@
                         <div class="sm:col-span-2">
                             <label for="start" class="block text-sm font-medium text-gray-700"> Data Hora Inicial </label>
                             <div class="mt-1">
-                                <input type="datetime-local" v-model="scenery.start" id="start" autocomplete="given-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                <input type="datetime-local" v-model="scenery.start_local" id="start" autocomplete="given-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                             </div>
                         </div>
 
                         <div class="sm:col-span-2">
                             <label for="finish" class="block text-sm font-medium text-gray-700"> Data Hora Final </label>
                             <div class="mt-1">
-                                <input type="datetime-local" v-model="scenery.finish" id="finish" autocomplete="family-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                <input type="datetime-local" v-model="scenery.finish_local" id="finish" autocomplete="family-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                             </div>
                         </div>
 

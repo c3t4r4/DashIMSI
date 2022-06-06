@@ -69,6 +69,8 @@ class SceneryController extends Controller
 
         $scenery = new Scenery();
         $scenery->fill($request->all());
+        $scenery->start_local = $scenery->start;
+        $scenery->finish_local = $scenery->finish;
 
         if (!$scenery->save()) {
             return redirect()
@@ -90,7 +92,7 @@ class SceneryController extends Controller
         if(!is_numeric($id)){
             return redirect()->route('scenery.index');
         }
-        
+
         $scenery = Scenery::find($id);
 
         if($scenery->id > 0){
@@ -99,9 +101,9 @@ class SceneryController extends Controller
 
             $locateds = Located::with('imsi')
             ->with('timsi')
-            ->where('created_at', '>=', convertStringToDateTime($scenery->start))
+            ->where('created_at', '>=', convertStringToDateTime($scenery->start_local))
 
-            ->when($scenery->finish, function ($query, $finish){
+            ->when($scenery->finish_local, function ($query, $finish){
                 $query->where('created_at', '<=', convertStringToDateTime($finish));
             })
 
@@ -145,8 +147,10 @@ class SceneryController extends Controller
         if($scenery->id > 0){
             $object = new stdClass;
             $object->id = $scenery->id;
-            $object->start = convertStringToDateTimeVue($scenery->start);
-            $object->finish = (!empty($scenery->finish) ? convertStringToDateTimeVue($scenery->finish) : "");
+            //$object->start = convertStringToDateTimeVue($scenery->start);
+            $object->start_local = convertStringToDateTimeVue($scenery->start_local);
+            //$object->finish = (!empty($scenery->finish) ? convertStringToDateTimeVue($scenery->finish) : "");
+            $object->finish_local = (!empty($scenery->finish) ? convertStringToDateTimeVue($scenery->finish_local) : "");
             $object->lat = $scenery->lat;
             $object->lng = $scenery->lng;
             $object->description = $scenery->description;
@@ -257,7 +261,9 @@ class SceneryController extends Controller
         }
 
         $scenery->start = $request->start;
+        $scenery->start_local = $request->start;
         $scenery->finish = $request->finish;
+        $scenery->finish_local = $request->finish;
         $scenery->description = $request->description;
         $scenery->lat = $request->lat;
         $scenery->lng = $request->lng;

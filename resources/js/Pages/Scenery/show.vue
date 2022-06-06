@@ -8,9 +8,9 @@
             <PageGridModel>
                 <template #headerPage>
                     <div class="sm:flex-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Cenário - ID: {{ sceneryID }} - Localizados</h1>
-                        <p class="m-3" v-if="!scenery.finish" >Período - {{ scenery.start }} </p>
-                        <p class="m-3" v-else >Período - {{ scenery.start }} à {{ scenery.finish }}</p>
+                        <h1 class="text-xl font-semibold text-gray-900">Cenário - ID: {{ scenery.id }} - Localizados</h1>
+                        <p class="m-3" v-if="!scenery.finish_local" >Período - {{ scenery.start_local }} </p>
+                        <p class="m-3" v-else >Período - {{ scenery.start_local }} à {{ scenery.finish_local }}</p>
 
                         <input v-model="search" type="text" id="Search" class="mt-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Busca..." />
                     </div>
@@ -118,7 +118,7 @@
 
     function updateData(){
         VtrilProgress.disable(() => {
-            Inertia.reload({ only: ['locateds','scenery', 'sceneryID', 'search', 'unique'], hideProgress: true });
+            Inertia.reload({ only: ['locateds','scenery', 'search', 'unique'], hideProgress: true });
         });
     }
 

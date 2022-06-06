@@ -9,7 +9,7 @@
                 <template #headerPage>
                     <div class="sm:flex-auto">
                         <h1 class="text-xl font-semibold text-gray-900">Comparando: Cenários</h1>
-                        <p class="m-3" v-for="(scenary, scenaryIndex) in scenariesTitle" :key="scenaryIndex">Cenário - ID: {{ scenary.id }} - Descrição: {{ scenary.description }} - Início: {{ scenary.start }} - Fim: {{ scenary.finish }}</p>
+                        <p class="m-3" v-for="(scenary, scenaryIndex) in scenariesTitle" :key="scenaryIndex">Cenário - ID: {{ scenary.id }} - Descrição: {{ scenary.description }} - Início: {{ scenary.start_local }} - Fim: {{ scenary.finish_local }}</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                         <Link as="button" :href="route('scenery.index')" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Voltar</Link>

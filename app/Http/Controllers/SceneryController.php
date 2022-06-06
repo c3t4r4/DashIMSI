@@ -101,10 +101,10 @@ class SceneryController extends Controller
 
             $locateds = Located::with('imsi')
             ->with('timsi')
-            ->where('created_at', '>=', convertStringToDateTime($scenery->lc_start))
+            ->where('created_at', '>=', $scenery->start)
 
-            ->when($scenery->lc_finish, function ($query, $finish){
-                $query->where('created_at', '<=', convertStringToDateTime($finish));
+            ->when($scenery->finish, function ($query, $finish){
+                $query->where('created_at', '<=', $finish);
             })
 
             ->when($request->search, function ($query, $search){
@@ -148,9 +148,9 @@ class SceneryController extends Controller
             $object = new stdClass;
             $object->id = $scenery->id;
             //$object->start = convertStringToDateTimeVue($scenery->start);
-            $object->lc_start = convertStringToDateTimeVue($scenery->lc_start);
+            $object->lc_start = convertStringToDateTimeVue(convertDateTimeBR($scenery->start));
             //$object->finish = (!empty($scenery->finish) ? convertStringToDateTimeVue($scenery->finish) : "");
-            $object->lc_finish = (!empty($scenery->finish) ? convertStringToDateTimeVue($scenery->lc_finish) : "");
+            $object->lc_finish = (!empty($scenery->finish) ? convertStringToDateTimeVue(convertDateTimeBR($scenery->finish)) : "");
             $object->lat = $scenery->lat;
             $object->lng = $scenery->lng;
             $object->description = $scenery->description;
@@ -249,7 +249,7 @@ class SceneryController extends Controller
         $scenery = Scenery::find($id);
 
         $validator = Validator::make($request->all(), [
-            'start' => 'required',
+            'lc_start' => 'required',
             'description' => 'required',
         ]);
 
@@ -260,10 +260,10 @@ class SceneryController extends Controller
                         ->withInput();
         }
 
-        $scenery->start = $request->start;
-        $scenery->lc_start = $request->start;
-        $scenery->finish = $request->finish;
-        $scenery->lc_finish = $request->finish;
+        $scenery->start = $request->lc_start;
+        $scenery->lc_start = $request->lc_start;
+        $scenery->finish = $request->lc_finish;
+        $scenery->lc_finish = $request->lc_finish;
         $scenery->description = $request->description;
         $scenery->lat = $request->lat;
         $scenery->lng = $request->lng;
@@ -275,8 +275,6 @@ class SceneryController extends Controller
                         ->route('scenery.edit')
                         ->withInput();
         }
-
-
 
         return redirect()->route('scenery.index');
     }

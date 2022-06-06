@@ -17,7 +17,9 @@ class Scenery extends Model
         'lat',
         'lng',
         'start',
+        'lc_start',
         'finish',
+        'lc_finish',
     ];
 
     /** Relationships */

@@ -42,14 +42,14 @@ class Scenery extends Model
     //     );
     // }
 
-    protected function lc_start(): Attribute
+    protected function lcStart(): Attribute
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),
         );
     }
 
-    protected function lc_finish(): Attribute
+    protected function lcFinish(): Attribute
     {
         return new Attribute(
             get: fn ($value) => convertDateTimeBR($value),

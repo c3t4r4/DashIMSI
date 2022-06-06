@@ -8,7 +8,7 @@
             <PageGridModel>
                 <template #headerPage>
                     <div class="sm:flex-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Comparando: Cenários</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Comparando: Cenários - Valores Unicos</h1>
                         <p class="m-3" v-for="(scenary, scenaryIndex) in scenariesTitle" :key="scenaryIndex">Cenário - ID: {{ scenary.id }} - Descrição: {{ scenary.description }} - Início: {{ scenary.lc_start }} - Fim: {{ scenary.lc_finish }}</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">

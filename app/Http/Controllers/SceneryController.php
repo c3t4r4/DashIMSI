@@ -221,14 +221,10 @@ class SceneryController extends Controller
             }
         }
 
-        $unique = (!empty($request->unique) && $request->unique == "true" ? true : false);
-
         $locateds = Located::with('imsi')
         ->with('timsi')
         ->whereIn("id", $initIDS)
-        ->when($unique, function ($query){
-            $query->distinct('imsi_id');
-        });
+        ->distinct('imsi_id');
 
         return Inertia::render('Scenery/compare', [
             "scenaries" => $ids,

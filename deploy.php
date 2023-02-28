@@ -26,6 +26,7 @@ add('writable_dirs', []);
 // Production
 set('branch', 'main');
 host('ubuntu@152.67.33.97')->set('deploy_path', '/var/www/DashIMSI');
+#host('erb@10.115.136.214')->set('deploy_path', '/var/www/DashIMSI');
 
 // Tasks
 task('build', function () {

@@ -111,11 +111,11 @@ class SceneryController extends Controller
                 $imsiIDS = Imsi::where('imsi', 'like', "%${search}%")->get('id')->toArray();
                 $timsiIDS = Timsi::where('timsi', 'like', "%${search}%")->get('id')->toArray();
 
-                $query->where(function($query) use($imsiIDS) {
+                $query->where(function ($query) use ($imsiIDS,  $timsiIDS){
                     $query->whereIn('imsi_id', $imsiIDS);
-                });
-                $query->orWhere(function($query) use($timsiIDS) {
-                    $query->whereIn('timsi_id', $timsiIDS);
+                    $query->orWhere(function($query) use($timsiIDS) {
+                        $query->whereIn('timsi_id', $timsiIDS);
+                    });
                 });
             })
             ->when($unique, function ($query){
